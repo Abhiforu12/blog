@@ -1,5 +1,9 @@
 {% extends "base.html"%}
 {%block content%}
-<p1> this is index</p1>
+<h1> this is index</h1>
+
+{% for article in articles %}
+    {{article}}
+{% endfor %}
 
 {%endblock content%}
