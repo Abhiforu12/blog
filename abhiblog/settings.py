@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['vercel.app','127.0.0.1']
 
 INSTALLED_APPS = [
     'article.apps.ArticleConfig',
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
