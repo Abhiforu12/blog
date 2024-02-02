@@ -1,7 +1,7 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from .models import *
-from .forms import ArticleForm
-
+from .forms import *
+from django.contrib.auth.decorators import login_required 
 # Create your views here.
 
 #conetxt processor - category
@@ -23,7 +23,6 @@ def index(request):
     }
 
     return render(request, 'article/index.html', context) 
-
 
 
 def single_article(request, pk):
@@ -55,20 +54,18 @@ def categorised_article(request, pk):
             'category' : category, 
         }
 
-    return render(request, 'article/categorised_article.html', context)
+    return render(request, 'article/categorised_article.html', context)   
 
-def post_article(request):
-
+@login_required
+def post_article(request):  
     form = ArticleForm()
-
-    if request.method =="POST":
-        form = ArticleForm(request.POST,request.FILES)
+    if request.method == "POST":
+        form = ArticleForm(request.POST, request.FILES)  
         if form.is_valid():
-            form.save()
-            return redirect('article:single_article',pk=form.instance.id)
+            form.save() 
+            return redirect('article:single_article', pk=form.instance.id) 
 
-
-    context={
-        'form':form
-    }
-    return render(request,'article/article_form.html',context)   
+    context = {
+        'form' : form
+    } 
+    return render(request, 'article/article_form.html', context) 
