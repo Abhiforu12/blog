@@ -1,7 +1,7 @@
 from django.db import models
-
+from django.contrib.auth.models import User
+from django.urls import reverse
 # Create your models here.
-
 
 class Category(models.Model):
 
@@ -13,22 +13,28 @@ class Category(models.Model):
         return self.name
 
 
+class Article(models.Model): 
 
-class Article(models.Model):
-
+    author = models.ForeignKey(User, on_delete=models.CASCADE,  default = 1) 
 
     category = models.ForeignKey(Category, on_delete = models.CASCADE, default = 1 )  
 
     title = models.CharField(max_length=100)
 
-    content = models.TextField(max_length = 2000) 
+    content = models.TextField(max_length = 10000)  
 
     img = models.ImageField(upload_to='article_images/', default= 'default_img.jpg') 
 
     pub_date = models.DateField(auto_now= True)  
 
     def __str__(self) -> str:
-
+        
         return self.title  
+    
+    def get_absolute_url(self):
+        return reverse('users:profile') 
+    
+    
+    
     
     

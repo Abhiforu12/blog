@@ -1,25 +1,26 @@
 {% extends "base.html" %}
-{%block content%}
+
+
+{% block content %}
+
 <div class="container" >
-    
-    <form action="" method='POST' enctype="multipart/form-data">
-
+    <h3 class="mx-1 my-3 fw-bold text-success">Post a article</h3> 
+    <form style="width:60%;" action="" method="POST" enctype = "multipart/form-data">
         {% csrf_token %}
-
-
         {% for field in form %}
-            <div class="form-label mt-2 fw-bold">
-                {{field.label}}
-            </div>
-            <div class="form-control mt-2">
-                {{field}}
-            </div>
-            {%endfor%}
-
-        
-       
-
-        <button type="submit" class='btn btn-success'>submit</button>
+            <div class="">
+                <div class="form-label mt-2 mx-1 fw-bold text-dark "> 
+                    {{field.label}}
+                </div> 
+                <div class="my-2">  
+                    {{field}} 
+                </div>   
+            </div>    
+        {% endfor %}   
+        <button type="submit" class='btn btn-success mx-1 my-3 rounded-0'>Submit</button>
     </form>
 </div>
-{%endblock content%}
+
+
+
+{% endblock content %}

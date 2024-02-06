@@ -2,6 +2,11 @@ from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
 from django.contrib.auth.decorators import login_required 
+
+from django.views.generic.edit import UpdateView, DeleteView
+
+from django.urls import reverse_lazy
+
 # Create your views here.
 
 #conetxt processor - category
@@ -18,8 +23,12 @@ def index(request):
      
     all_articles = Article.objects.all()
 
+    recent_articles = Article.objects.all().order_by('pub_date')[:3] 
+
     context = {
         'articles': all_articles,
+
+        'recent_articles': recent_articles
     }
 
     return render(request, 'article/index.html', context) 
@@ -62,10 +71,32 @@ def post_article(request):
     if request.method == "POST":
         form = ArticleForm(request.POST, request.FILES)  
         if form.is_valid():
-            form.save() 
+            article = form.save(commit=False)
+            article.author = request.user
+            article.save()  
             return redirect('article:single_article', pk=form.instance.id) 
 
-    context = {
+    context = { 
         'form' : form
     } 
     return render(request, 'article/article_form.html', context) 
+
+
+# class UpdateArticle(UpdateView):
+#     model = Article
+
+#     fields = ["category", "title", "img", "content"] 
+
+#     template_name_suffix = "_update" 
+
+class UpdateArticle(UpdateView):
+    model = Article
+    form_class = ArticleForm
+    template_name_suffix = "_update"
+
+class DeleteArticle(DeleteView):
+
+    model = Article 
+
+    success_url = reverse_lazy('users:profile') 
+
