@@ -22,17 +22,19 @@ class Article(models.Model):
     title = models.CharField(max_length=100)
 
     content = models.TextField(max_length = 10000)  
+    
 
     img = models.ImageField(upload_to='article_images/', default= 'default_img.jpg') 
 
     pub_date = models.DateField(auto_now= True)  
 
     def __str__(self) -> str:
-        
         return self.title  
     
     def get_absolute_url(self):
-        return reverse('users:profile') 
+        return reverse('profile') 
+    
+    
     
     
     
